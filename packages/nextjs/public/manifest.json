@@ -1,5 +1,5 @@
 {
-  "name": "Scaffold-ETH 2 DApp",
-  "description": "A DApp built with Scaffold-ETH",
+  "name": "The Proving Grounds",
+  "description": "Permissioned-by-burn onchain registry for LeftClaw-verified builds on Base",
   "iconPath": "logo.svg"
 }

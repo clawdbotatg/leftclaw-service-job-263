@@ -46,10 +46,14 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   // Some downstream connector code throws on `Cannot read properties of
   // undefined (reading 'data')` when there's no real browser context. Once
   // the client mounts, the full provider tree renders.
+  //
+  // We intentionally do NOT render children during the unmounted state because
+  // page components depend on wagmi context (useConfig, useAccount, etc.) and
+  // would throw during prerender if rendered without providers.
   if (!mounted) {
     return (
       <div className="flex flex-col min-h-screen">
-        <main className="relative flex flex-col flex-1">{children}</main>
+        <main className="relative flex flex-col flex-1" />
       </div>
     );
   }
