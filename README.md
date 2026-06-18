@@ -1,83 +1,49 @@
-# 🏗 Scaffold-ETH 2
+# The Proving Grounds
 
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
+Permissioned-by-burn onchain registry for LeftClaw-verified builds on Base. Wallets earn soulbound stamps for using registered apps, claim CLAWD bounties for early adoption, leave proof-of-use-gated reviews, and tip reviewers for quality feedback.
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+## Live App
 
-> [!NOTE]
-> 🤖 Scaffold-ETH 2 is AI-ready! It has everything agents need to build on Ethereum. Check `.agents/`, `.claude/`, `.opencode` or `.cursor/` for more info.
+https://bafybeifkagi6isokrorqc4x43sxxkxm66prkykpaxtbzbhqhlf2pzfnqpy.ipfs.community.bgipfs.com/
 
-⚙️ Built using NextJS, RainbowKit, Foundry, Wagmi, Viem, and Typescript.
+## Contracts on Base
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
+| Contract | Address | Basescan |
+|----------|---------|---------|
+| ProvingGroundsRegistry | 0x5c218Ca6fFE511e6200a4AaE63407c7b25c010a0 | https://basescan.org/address/0x5c218Ca6fFE511e6200a4AaE63407c7b25c010a0 |
+| ProvingStamp (ERC721) | 0x843A475c1353Cff17190f7d8aE226f5407DadaC7 | https://basescan.org/address/0x843A475c1353Cff17190f7d8aE226f5407DadaC7 |
+| ProvingFeedback | 0xF08c56f44C55eA8D4603491235ab296c975024Fc | https://basescan.org/address/0xF08c56f44C55eA8D4603491235ab296c975024Fc |
+| CLAWD Token | 0x9f86dB9fc6f7c9408e8Fda3Ff8ce4e78ac7a6b07 | https://basescan.org/address/0x9f86dB9fc6f7c9408e8Fda3Ff8ce4e78ac7a6b07 |
 
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
+All contracts verified on Basescan. CLAWD decimals: 18.
 
-## Requirements
+## Client Actions Required
 
-Before you begin, you need to install the following tools:
+Call acceptOwnership() on each contract from the client wallet (0x34aA3F359A9D614239015126635CE7732c18fDF3):
 
-- [Node (>= v20.18.3)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
+  cast send 0x5c218Ca6fFE511e6200a4AaE63407c7b25c010a0 "acceptOwnership()" --private-key $PK --rpc-url $RPC
+  cast send 0x843A475c1353Cff17190f7d8aE226f5407DadaC7 "acceptOwnership()" --private-key $PK --rpc-url $RPC
+  cast send 0xF08c56f44C55eA8D4603491235ab296c975024Fc "acceptOwnership()" --private-key $PK --rpc-url $RPC
 
-## Quickstart
+Strongly recommended: move admin to a multisig (Safe) before any real CLAWD flows through this.
 
-To get started with Scaffold-ETH 2, follow the steps below:
+## Pages
 
-1. Install dependencies if it was skipped in CLI:
+- / - Registry feed
+- /register - Register a new build (CLAWD burn + bounty pool)
+- /build?id=N - Build detail: claim stamp, reviews, tips
+- /wallet - My stamps and CLAWD balance
 
-```
-cd my-dapp-example
-yarn install
-```
+## Local Development
 
-2. Run a local network in the first terminal:
+  yarn install
+  yarn fork --network base
+  yarn deploy
+  yarn start
 
-```
-yarn chain
-```
+## Stack
 
-This command starts a local Ethereum network using Foundry. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `packages/foundry/foundry.toml`.
-
-3. On a second terminal, deploy the test contract:
-
-```
-yarn deploy
-```
-
-This command deploys a test smart contract to the local network. The contract is located in `packages/foundry/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/foundry/script` to deploy the contract to the network. You can also customize the deploy script.
-
-4. On a third terminal, start your NextJS app:
-
-```
-yarn start
-```
-
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
-
-Run smart contract test with `yarn foundry:test`
-
-- Edit your smart contracts in `packages/foundry/contracts`
-- Edit your frontend homepage at `packages/nextjs/app/page.tsx`. For guidance on [routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) and configuring [pages/layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) checkout the Next.js documentation.
-- Edit your deployment scripts in `packages/foundry/script`
-
-
-## Documentation
-
-Visit our [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
-
-To know more about its features, check out our [website](https://scaffoldeth.io).
-
-## Contributing to Scaffold-ETH 2
-
-We welcome contributions to Scaffold-ETH 2!
-
-Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+- Contracts: Solidity 0.8.20, Foundry, OpenZeppelin v5
+- Frontend: Next.js 16, Scaffold-ETH 2, RainbowKit, wagmi, viem
+- Deployment: IPFS via bgipfs, Base mainnet
+- Token: CLAWD ERC20 on Base
